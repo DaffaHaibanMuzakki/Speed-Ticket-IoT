@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Ticket Dashboard</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1 class="title">🚨 Speed Ticket Dashboard</h1>
+    <p class="subtitle">Monitoring pelanggaran kecepatan secara real-time</p>
+
+    <div class="card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    
+                    <th>Kecepatan</th>
+                    <th>Waktu</th>
+                    <th>Denda</th>
+                    <th>Hapus</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const socket = io();
+
+
+function hitungDenda(speed) {
+    speed = parseInt(speed);
+
+    if (speed >= 30) {
+        return "Rp 500.000";
+    } else if (speed >= 25 && speed < 30) {
+        return "Rp 400.000";
+    } else if (speed >= 20 && speed < 25) {
+        return "Rp 300.000";
+    } else if (speed >= 15 && speed < 20) {
+        return "Rp 200.000";
+    } else if (speed > 10 && speed < 15) {
+        return "Rp 100.000";
+    } else {
+        return "Rp 0";
+    }
+}
+
+
+
+
+// Render ulang tabel berdasarkan data dari backend
+function renderTable(data) {
+    const tbody = document.querySelector("tbody");
+    tbody.innerHTML = ""; // clear table
+
+    data.forEach((item, index) => {
+    const tanggal = new Date(item.tanggal).toLocaleTimeString("id-ID", {
+    timeZone: "Asia/Jakarta",
+    hour: "2-digit",
+    minute: "2-digit",
+    
+});
+
+        const tr = document.createElement("tr");
+
+        // warna merah jika kecepatan tinggi
+        if (item.kecepatan > 100) tr.classList.add("danger-row");
+
+        tr.innerHTML = `
+    <td>${index + 1}</td>
+    <td class="speed">${item.kecepatan} km/h</td>
+    <td>${tanggal}</td>
+    <td class="denda">${hitungDenda(item.kecepatan)}</td>
+    <td><button class="delete-btn" data-id="${item._id}">❌</button></td>
+`;
+
+
+        tbody.appendChild(tr);
+    });
+}
+
+
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("delete-btn")) {
+        const id = e.target.getAttribute("data-id");
+        socket.emit("hapus_ticket", { id });
+    }
+});
+
+
+
+socket.on("mqtt_message", (packet) => {
+    console.log("DATA MASUK DARI BACKEND:", packet);
+
+    if (packet.ticketData) {
+        renderTable(packet.ticketData);
+    }
+});
+</script>
+
+
+
+
+
+</body>
+</html>

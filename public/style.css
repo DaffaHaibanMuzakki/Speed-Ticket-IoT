@@ -1,0 +1,105 @@
+/* Global */
+body {
+    margin: 0;
+    padding: 0;
+    background: #0d0d0d;
+    font-family: 'Inter', sans-serif;
+    color: #d9d9d9;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+/* Heading */
+.title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: #00f0a8;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 35px;
+    font-weight: 300;
+}
+
+/* Card */
+.card {
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 255, 150, 0.08);
+    backdrop-filter: blur(8px);
+}
+
+/* Table */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table thead th {
+    padding: 14px;
+    text-align: left;
+    background: #111;
+    color: #00f0a8;
+    font-weight: 600;
+    border-bottom: 1px solid #222;
+}
+
+.table tbody td {
+    padding: 14px;
+    border-bottom: 1px solid #222;
+}
+
+/* Hover effect */
+.table tbody tr:hover {
+    background: #222;
+}
+
+/* Denda style */
+.denda {
+    color: #ff4d4d;
+    font-weight: 600;
+}
+
+/* Speed highlight */
+.speed {
+    font-weight: 600;
+    color: #04b7ff;
+}
+
+/* Nama */
+.nama {
+    font-weight: 600;
+}
+
+/* Row untuk speed sangat tinggi */
+.danger-row {
+    background: rgba(255, 67, 67, 0.08);
+}
+
+.danger-row:hover {
+    background: rgba(255, 67, 67, 0.13);
+}
+
+
+.delete-btn {
+    background: #ff4d4d;
+    border: none;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.delete-btn:hover {
+    background: #e60000;
+}
